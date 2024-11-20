@@ -17,6 +17,7 @@ jobs:
           repository: aws-cloudformation/cloudformation-guard
           path: cloudformation-guard
       - name: Build binary
+        shell: bash
         run: |
           cd cloudformation-guard
           make 
