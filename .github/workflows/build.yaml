@@ -21,8 +21,12 @@ jobs:
         run: |
           cd cloudformation-guard/guard/
           cargo build --release
-          ls -lrht ../target/release/
-      - name: Generate rule using cfn-guard rungen
+          
+
+      - name: Checkout cloudformation-guard
+        uses: actions/checkout@v3
+          
+      - name: Generate rule using cfn-guard rulegen
         run: |
             ls -lrth
             cloudformation-guard/target/release/cfn-guard rulegen --template ./dashboard.json
