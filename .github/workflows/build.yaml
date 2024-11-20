@@ -7,27 +7,17 @@ on:
     types: [opened, synchronize, reopened]
 
 jobs:
-  aws-guard-rules-registry-integration-tests-linux-and-macos:
+  guard:
     runs-on: ubuntu-latest
-    name: Integration tests against aws-guard-rules-registry
-    steps:
-      - name: Checkout cloudformation-guard
-        uses: actions/checkout@v3
-    
-      - uses: actions/checkout@v3
-        name: Checkout cfn-guard
+    permissions:
+      # only required when create-review is true
+      pull-requests: write
+      # only required for workflows in private repositories
+      contents: read
+    name: CloudFormation Guard validate
+    steps: 
+      - name: CloudFormation Guard validate
+        uses: aws-cloudformation/cloudformation-guard@action-v0.0.5
         with:
-          repository: aws-cloudformation/cloudformation-guard
-          path: cloudformation-guard
-      - name: Build binary
-        shell: bash
-        run: |
-          cd cloudformation-guard/guard/
-          cargo build --release
-
-      - name: Generate rule using cfn-guard rulegen
-        run: |
-            ls -lrth
-            cloudformation-guard/target/release/cfn-guard rulegen --template ./dashboard.json
-          
-          
+          rules: '.'
+          data: '.'
