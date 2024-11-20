@@ -7,11 +7,9 @@
         "BucketEncryption": {
           "ServerSideEncryptionConfiguration": [
             {
-		{
               "ServerSideEncryptionByDefault": {
                 "SSEAlgorithm": "AES256"
               }
-            }
             }
           ]
         },
@@ -138,11 +136,9 @@
       "Properties": {
         "BucketEncryption": {
           "ServerSideEncryptionConfiguration": [
-            {
 		{
               "ServerSideEncryptionByDefault": {
                 "SSEAlgorithm": "AES256"
-              }
             }
 	}
           ]
