@@ -21,5 +21,10 @@ jobs:
         run: |
           cd cloudformation-guard/guard/
           cargo build --release
-          ls -lrht ../target/
+      - name: cfn-guard version
+        with:
+          repository: aws-cloudformation/cloudformation-guard
+          run: |
+            cloudformation-guard/target/release/cfn-guard --version
+          
           
