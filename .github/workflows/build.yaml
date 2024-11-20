@@ -22,8 +22,8 @@ jobs:
           cd cloudformation-guard/guard/
           cargo build --release
           ls -lrht ../target/release/
-      - name: cfn-guard version
+      - name: Generate rule using cfn-guard rungen
         run: |
-            cloudformation-guard/target/release/cfn-guard help
+            cloudformation-guard/target/release/cfn-guard rungen ./dashboard.json
           
           
