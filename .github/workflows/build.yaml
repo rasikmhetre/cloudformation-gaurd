@@ -30,5 +30,8 @@ jobs:
             ls -lrth
             cloudformation-guard/target/release/cfn-guard rulegen --output rules.json --template ./poller.json
             cat rules.json
+      - name: CFN-Guard check 
+        run: |
+          cloudformation-guard/target/release/cfn-guard check -t ./poller.json -r rules.json
           
           
