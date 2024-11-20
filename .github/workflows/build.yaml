@@ -24,6 +24,6 @@ jobs:
           ls -lrht ../target/release/
       - name: Generate rule using cfn-guard rungen
         run: |
-            cloudformation-guard/target/release/cfn-guard rungen ./dashboard.json
+            cloudformation-guard/target/release/cfn-guard rulegen ./dashboard.json
           
           
