@@ -18,6 +18,7 @@ jobs:
           path: cloudformation-guard
       - name: Build binary
         run: |
+          cd cloudformation-guard
           make 
           ls -lrht
       
