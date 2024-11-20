@@ -24,6 +24,6 @@ jobs:
           ls -lrht ../target/release/
       - name: cfn-guard version
         run: |
-            cloudformation-guard/target/release/cfn-guard --version
+            cloudformation-guard/target/release/cfn-guard help
           
           
