@@ -11,6 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     name: Integration tests against aws-guard-rules-registry
     steps:
+      - name: Checkout cloudformation-guard
+        uses: actions/checkout@v3
+    
       - uses: actions/checkout@v3
         name: Checkout cfn-guard
         with:
@@ -21,11 +24,7 @@ jobs:
         run: |
           cd cloudformation-guard/guard/
           cargo build --release
-          
 
-      - name: Checkout cloudformation-guard
-        uses: actions/checkout@v3
-          
       - name: Generate rule using cfn-guard rulegen
         run: |
             ls -lrth
