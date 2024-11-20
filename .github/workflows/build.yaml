@@ -19,6 +19,6 @@ jobs:
       - name: Build binary
         run: |
           cd cloudformation-guard/guard/
-          cargo build --release
-          target/release/cfn-guard --version
+          make
+          ls -lrht
       
