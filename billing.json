@@ -1,0 +1,320 @@
+{
+  "Parameters": {
+    "NetworkStack": {
+      "Default": "",
+      "Description": "Name of the stack that this stack references for networking and shared resources",
+      "Type": "String"
+    },
+    "ServerlessStack": {
+      "Default": "",
+      "Description": "Name of the stack that this stack references for serverless resources",
+      "Type": "String"
+    },
+    "SplunkForwarderImageTag": {
+      "Type": "String",
+      "Default": ""
+    }
+  },
+  "Conditions": {
+    "StackIsNotSk1BillingStaging32": {
+      "Fn::Not": [
+        {
+          "Fn::Equals": [
+            {
+              "Ref": "AWS::StackName"
+            },
+            "sk1-Billing-Staging-32"
+          ]
+        }
+      ]
+    }
+  },
+  "Resources": {
+    "BillingV3EcsCluster": {
+      "Properties": {},
+      "Type": "AWS::ECS::Cluster"
+    },
+    "BillingHeapDumpV2AccessPoint": {
+      "DependsOn": [
+        "BillingHeapDumpV2EfsFileSystem"
+      ],
+      "Properties": {
+        "AccessPointTags": [
+          {
+            "Key": "Name",
+            "Value": {
+              "Fn::Join": [
+                "-",
+                [
+                  {
+                    "Ref": "AWS::StackName"
+                  },
+                  "HeapDumpAccessPoint"
+                ]
+              ]
+            }
+          }
+        ],
+        "FileSystemId": {
+          "Ref": "BillingHeapDumpV2EfsFileSystem"
+        },
+        "PosixUser": {
+          "Gid": "8010",
+          "Uid": "8010"
+        },
+        "RootDirectory": {
+          "CreationInfo": {
+            "OwnerGid": "8010",
+            "OwnerUid": "8010",
+            "Permissions": "0755"
+          },
+          "Path": "/billing"
+        }
+      },
+      "Type": "AWS::EFS::AccessPoint"
+    },
+    "BillingHeapDumpEfsVolumeKmsKey": {
+      "Properties": {
+        "Description": "KMS key used for Encrypted volume",
+        "EnableKeyRotation": true,
+        "Enabled": true,
+        "KeyPolicy": {
+          "Id": "key-default-1",
+          "Statement": [
+            {
+              "Action": "kms:*",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
+                    ":",
+                    [
+                      "arn:aws:iam:",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      "root"
+                    ]
+                  ]
+                }
+              },
+              "Resource": "*",
+              "Sid": "AllowIamUsersAndRolesInTheAccountAccessToThisCmk"
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "Tags": [
+          {
+            "Key": "ct-aws:cloudformation:stack-name",
+            "Value": {
+              "Ref": "AWS::StackName"
+            }
+          },
+          {
+            "Key": "Identifier",
+            "Value": {
+              "Fn::Sub": "${AWS::StackName}-BillingHeapDumpEfsVolumeKmsKey"
+            }
+          }
+        ]
+      },
+      "Type": "AWS::KMS::Key"
+    },
+    "BillingHeapDumpV2EfsFileSystem": {
+      "Properties": {
+        "Encrypted": true,
+        "FileSystemTags": [
+          {
+            "Key": "Name",
+            "Value": "BillingHeapDumpEfs"
+          }
+        ],
+        "KmsKeyId": {
+          "Ref": "BillingHeapDumpEfsVolumeKmsKey"
+        },
+        "PerformanceMode": "generalPurpose"
+      },
+      "Type": "AWS::EFS::FileSystem"
+    },
+    "BillingHeapDump1aEc2SubnetV2EfsMountTarget": {
+      "Properties": {
+        "FileSystemId": {
+          "Ref": "BillingHeapDumpV2EfsFileSystem"
+        },
+        "SecurityGroups": [
+          {
+            "Fn::ImportValue": {
+              "Fn::Join": [
+                "-",
+                [
+                  {
+                    "Ref": "NetworkStack"
+                  },
+                  "SecurityGroup-BillingHeapDumpEfsEC2SecurityGroupId"
+                ]
+              ]
+            }
+          }
+        ],
+        "SubnetId": {
+          "Fn::ImportValue": {
+            "Fn::Join": [
+              "-",
+              [
+                {
+                  "Ref": "NetworkStack"
+                },
+                "HeapDumpEfs1aSubnetId"
+              ]
+            ]
+          }
+        }
+      },
+      "Type": "AWS::EFS::MountTarget"
+    },
+    "LambdaFunctionExecutionIamRole": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              },
+              "Sid": ""
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "Path": "/"
+      },
+      "Type": "AWS::IAM::Role"
+    },
+    "LambdaFunctionExecutionIamPolicy": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "codepipeline:PutJobSuccessResult",
+                "codepipeline:PutJobFailureResult"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "s3:*"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "autoscaling:DescribeAutoScalingGroups",
+                "autoscaling:SetDesiredCapacity"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "ecs:DescribeServices",
+                "ecs:ListContainerInstances"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "cloudwatch:PutMetricData"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": {
+          "Fn::Join": [
+            "-",
+            [
+              {
+                "Ref": "AWS::StackName"
+              },
+              "LambdaFunctionExecutionIamPolicy"
+            ]
+          ]
+        },
+        "Roles": [
+          {
+            "Ref": "LambdaFunctionExecutionIamRole"
+          }
+        ]
+      },
+      "Type": "AWS::IAM::Policy"
+    },
+    "MonthlyBillingS3Bucket": {
+      "Condition": "StackIsNotSk1BillingStaging32",
+      "Type": "AWS::S3::Bucket",
+      "Properties": {}
+    }
+  },
+  "Outputs": {
+    "BillingHeapDumpV2AccessPoint": {
+      "Export": {
+        "Name": {
+          "Fn::Sub": "${AWS::StackName}-Service-BillingHeapDumpV2AccessPointId"
+        }
+      },
+      "Value": {
+        "Ref": "BillingHeapDumpV2AccessPoint"
+      }
+    },
+    "BillingHeapDumpV2EfsFileSystem": {
+      "Export": {
+        "Name": {
+          "Fn::Sub": "${AWS::StackName}-Service-BillingHeapDumpV2EfsFileSystemId"
+        }
+      },
+      "Value": {
+        "Ref": "BillingHeapDumpV2EfsFileSystem"
+      }
+    },
+    "BillingV3EcsClusterName": {
+      "Export": {
+        "Name": {
+          "Fn::Sub": "${AWS::StackName}-Service-BillingV3EcsClusterName"
+        }
+      },
+      "Value": {
+        "Ref": "BillingV3EcsCluster"
+      }
+    },
+    "MonthlyBillingS3BucketArn": {
+      "Condition": "StackIsNotSk1BillingStaging32",
+      "Export": {
+        "Name": {
+          "Fn::Sub": "${NetworkStack}-MonthlyBillingS3BucketArn"
+        }
+      },
+      "Value": {
+        "Fn::GetAtt": [
+          "MonthlyBillingS3Bucket",
+          "Arn"
+        ]
+      }
+    }
+  }
+}
