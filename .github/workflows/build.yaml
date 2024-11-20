@@ -8,10 +8,7 @@ on:
 
 jobs:
   aws-guard-rules-registry-integration-tests-linux-and-macos:
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     name: Integration tests against aws-guard-rules-registry
     steps:
       - uses: actions/checkout@v3
@@ -23,12 +20,5 @@ jobs:
         run: |
           cd cloudformation-guard/guard/
           cargo build --release
-      - uses: actions/checkout@v3
-        name: Checkout aws-guard-rules-registry
-        with:
-          repository: aws-cloudformation/aws-guard-rules-registry
-          path: aws-guard-rules-registry
-          ref: main
-      - name: Run test
-        run: |
-          ls -lrht cloudformation-guard/guard/
+          target\release\cfn-guard --version
+      
