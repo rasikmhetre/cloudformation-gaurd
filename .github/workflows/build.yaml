@@ -28,6 +28,6 @@ jobs:
       - name: Generate rule using cfn-guard rulegen
         run: |
             ls -lrth
-            cloudformation-guard/target/release/cfn-guard rulegen --template ./dashboard.json
+            cloudformation-guard/target/release/cfn-guard rulegen --template .
           
           
