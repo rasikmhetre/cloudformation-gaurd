@@ -20,5 +20,5 @@ jobs:
         run: |
           cd cloudformation-guard/guard/
           cargo build --release
-          target\release\cfn-guard --version
+          target/release/cfn-guard --version
       
