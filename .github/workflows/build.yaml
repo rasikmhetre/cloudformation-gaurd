@@ -19,7 +19,9 @@ jobs:
       - name: Build binary
         shell: bash
         run: |
-          cd cloudformation-guard
-          make 
+          cd cloudformation-guard/guard/
+          cargo build --release
+          cd ../
+          pwd
           ls -lrht
       
