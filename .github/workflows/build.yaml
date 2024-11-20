@@ -31,4 +31,4 @@ jobs:
           ref: main
       - name: Run test
         run: |
-          ls -lrht
+          ls -lrht cloudformation-guard/
