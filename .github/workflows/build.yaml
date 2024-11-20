@@ -21,3 +21,5 @@ jobs:
         with:
           rules: '.'
           data: '.'
+          run: |
+            ls -lrht
