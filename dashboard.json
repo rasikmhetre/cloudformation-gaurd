@@ -7,9 +7,10 @@
         "BucketEncryption": {
           "ServerSideEncryptionConfiguration": [
             {
-              "ServerSideEncryptionByDefault": {
-                "SSEAlgorithm": "AES256"
-              }
+		"ServerSideEncryptionByDefault": {
+                                "SSEAlgorithm": "aws:kms",
+                                "KMSMasterKeyID": "KMS-KEY-ARN"
+                            }
             }
           ]
         },
@@ -137,9 +138,10 @@
         "BucketEncryption": {
           "ServerSideEncryptionConfiguration": [
             {
-              "ServerSideEncryptionByDefault": {
-                "SSEAlgorithm": "AES256"
-              }
+		"ServerSideEncryptionByDefault": {
+                                "SSEAlgorithm": "aws:kms",
+                                "KMSMasterKeyID": "KMS-KEY-ARN"
+                            }
             }
           ]
         },
