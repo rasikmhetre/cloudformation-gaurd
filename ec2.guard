@@ -1,2 +1,0 @@
-let ec2_instance = Resource.*[Type: AWS::EC2::Instance]
-rule ec2_instance
