@@ -7,10 +7,9 @@
         "BucketEncryption": {
           "ServerSideEncryptionConfiguration": [
             {
-		"ServerSideEncryptionByDefault": {
-                                "SSEAlgorithm": "aws:kms",
-                                "KMSMasterKeyID": "KMS-KEY-ARN"
-                            }
+              "ServerSideEncryptionByDefault": {
+                "SSEAlgorithm": "AES256"
+              }
             }
           ]
         },
@@ -23,7 +22,15 @@
         "WebsiteConfiguration": {
           "IndexDocument": "index.html",
           "ErrorDocument": "index.html"
-        }
+        },
+        "Tags": [
+          {
+            "Key": "ct-aws:cloudformation:stack-name",
+            "Value": {
+              "Ref": "AWS::StackName"
+            }
+          }
+        ]
       }
     },
     "DemoDashboardStagingS3BucketPolicy": {
@@ -72,6 +79,14 @@
     "DemoDashboardStagingCloudFrontDistribution" : {
       "Type" : "AWS::CloudFront::Distribution",
       "Properties" : {
+        "Tags": [
+          {
+            "Key": "ct-aws:cloudformation:stack-name",
+            "Value": {
+              "Ref": "AWS::StackName"
+            }
+          }
+        ],
         "DistributionConfig" : {
           "Aliases": [
             "demo-staging.clevertap.com"
@@ -138,10 +153,9 @@
         "BucketEncryption": {
           "ServerSideEncryptionConfiguration": [
             {
-		"ServerSideEncryptionByDefault": {
-                                "SSEAlgorithm": "aws:kms",
-                                "KMSMasterKeyID": "KMS-KEY-ARN"
-                            }
+              "ServerSideEncryptionByDefault": {
+                "SSEAlgorithm": "AES256"
+              }
             }
           ]
         },
@@ -154,7 +168,15 @@
         "WebsiteConfiguration": {
           "IndexDocument": "index.html",
           "ErrorDocument": "index.html"
-        }
+        },
+        "Tags": [
+          {
+            "Key": "ct-aws:cloudformation:stack-name",
+            "Value": {
+              "Ref": "AWS::StackName"
+            }
+          }
+        ]
       }
     },
     "DemoDashboardProductionS3BucketPolicy": {
@@ -203,6 +225,14 @@
     "DemoDashboardProductionCloudFrontDistribution" : {
       "Type" : "AWS::CloudFront::Distribution",
       "Properties" : {
+        "Tags": [
+          {
+            "Key": "ct-aws:cloudformation:stack-name",
+            "Value": {
+              "Ref": "AWS::StackName"
+            }
+          }
+        ],
         "DistributionConfig" : {
           "Aliases": [
             "demo.clevertap.com"
