@@ -1,7 +1,7 @@
 let all_resources = Resources.*
 # Rule to enforce logical ID follows the resource type convention (last two parts)
 rule clevertap_compliant_logical_id_format {
-    Resources[Type == "AWS::EC2::Instance"].LogicalId == /.*Ec2Instance$/ 
+    Resources[Type == "AWS::EC2::Instance"].LogicalId == /.*EC2Instance$/ 
   or
     Resources[Type == "AWS::S3::Bucket"].LogicalId == /.*S3Bucket$/
 
