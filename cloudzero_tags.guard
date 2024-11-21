@@ -1,0 +1,6 @@
+let enforce_cloudzero_tags_on_all_resources = Resources.* 
+rule aws_tags when %enforce_cloudzero_tags_on_all_resources !empty {
+   %enforce_cloudzero_tags_on_all_resources[
+	Type IN ["AWS::S3::Bucket", "AWS::CloudFront::Distribution"]
+    ].Properties.Tags[*].Key IN /^(ct-aws.*)$/
+}
