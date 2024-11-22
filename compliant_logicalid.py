@@ -30,7 +30,8 @@ class CloudFormationValidator:
                 self.EXCLUSION_LIST = [
                     self.clean_string(line) for line in f.readlines() if line.strip()
                 ]
-                print(f"Exclusion List Loaded: {self.EXCLUSION_LIST}")
+                #print(f"Exclusion List Loaded: {self.EXCLUSION_LIST}")
+                #print(len(self.EXCLUSION_LIST))
         except FileNotFoundError:
             print(f"Exclusion file {self.exclusion_file} not found!")
 
@@ -46,7 +47,8 @@ class CloudFormationValidator:
 
                 # Skip the resource if its cleaned logical ID is in the exclusion list
                 if cleaned_logical_id in self.EXCLUSION_LIST:
-                    print(f"{COLOR_CODES['error']}Skipping Logical ID: {cleaned_logical_id}{COLOR_CODES['reset']}")
+               #     print(f"{COLOR_CODES['error']}Skipping Logical ID: {cleaned_logical_id}{COLOR_CODES['reset']}")
+                    print(cleaned_logical_id)
                     continue  # Skip this resource if its logical ID is in the exclusion list
 
                 # The logical ID is the key of the resource in the "Resources" section
@@ -56,6 +58,8 @@ class CloudFormationValidator:
                     # Simplified, using the last two parts directly
                     expected_logical_id_end = ''.join(type_parts[-2:])
                     if not cleaned_logical_id.lower().endswith(expected_logical_id_end.lower()):
+                        print(cleaned_logical_id.lower())
+                        print(expected_logical_id_end.lower())
                         print(f"{COLOR_CODES['error']}Error: Logical ID '{cleaned_logical_id}' for resource '{resource_type}' in '{f}' is not compliant with the expected format.{COLOR_CODES['reset']}")
                         return
                 else:
