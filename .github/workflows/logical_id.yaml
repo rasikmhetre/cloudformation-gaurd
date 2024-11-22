@@ -37,6 +37,7 @@ jobs:
         
 
       - name: Generate Summary
+        if: always()
         run: |
           echo "# Workflow Summary" >> $GITHUB_STEP_SUMMARY
               echo "## Python Code Execution" >> $GITHUB_STEP_SUMMARY
