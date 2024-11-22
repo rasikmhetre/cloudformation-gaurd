@@ -33,15 +33,22 @@ jobs:
         run: |
           echo "Running Python script..."
           python3 compliant_logicalid.py > output.log
-          echo "Script finished!" 
+          echo "Script finished!"
+        continue-on-error: false
 
       - name: Generate Summary
         run: |
           echo "# Workflow Summary" >> $GITHUB_STEP_SUMMARY
-          echo "## Python Code Execution" >> $GITHUB_STEP_SUMMARY
-          echo "The Python script has been executed successfully." >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "### Output from the script:" >> $GITHUB_STEP_SUMMARY
-          echo '```' >> $GITHUB_STEP_SUMMARY
-          cat output.log >> $GITHUB_STEP_SUMMARY
-          echo '```' >> $GITHUB_STEP_SUMMARY
+              echo "## Python Code Execution" >> $GITHUB_STEP_SUMMARY
+              if [ -f output.log ]; then
+                echo "### Output from the script:" >> $GITHUB_STEP_SUMMARY
+                echo '```' >> $GITHUB_STEP_SUMMARY
+                cat output.log >> $GITHUB_STEP_SUMMARY
+                echo '```' >> $GITHUB_STEP_SUMMARY
+              else
+                echo "The script did not produce any output." >> $GITHUB_STEP_SUMMARY
+              fi
+          # Set the job to fail if the script failed
+      - name: Fail Workflow if Script Failed
+        if: failure()
+        run: echo "Python script failed. Please check the logs and summary."
