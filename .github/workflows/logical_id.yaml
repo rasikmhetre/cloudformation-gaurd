@@ -1,21 +1,33 @@
-name: check if logical id is compliant
+name: Check if logical id naming convention is compliant or not
 
-on: 
+on:
+  push:
+    branches:
+      - main
   pull_request:
     branches:
       - main
-    types: [opened, synchronize, reopened]
+    types: [opened,synchronize,reopened]
 
 jobs:
-  check_if_logical_id_is_compliant:
+  run-python-code:
     runs-on: ubuntu-latest
-    name: CloudFormation Guard validate
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      # Checkout your repository
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # Set up Python
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
-          python-version: '3.13' 
-      - run: python compliant_logicalid.py
-            
-           
-  
+          python-version: '3.9' # Replace with your desired Python version, e.g., '3.8'
+
+      # Install dependencies
+      - name: Install YAML module
+        run: pip3 install pyyaml
+
+      # Run your Python script
+      - name: Run Python Code
+        run: python3 compliant_logicalid.py
