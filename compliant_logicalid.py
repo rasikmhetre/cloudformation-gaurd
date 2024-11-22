@@ -47,26 +47,28 @@ class CloudFormationValidator:
 
                 # Skip the resource if its cleaned logical ID is in the exclusion list
                 if cleaned_logical_id in self.EXCLUSION_LIST:
-               #     print(f"{COLOR_CODES['error']}Skipping Logical ID: {cleaned_logical_id}{COLOR_CODES['reset']}")
-                    print(cleaned_logical_id)
+                    #     print(f"{COLOR_CODES['error']}Skipping Logical ID: {cleaned_logical_id}{COLOR_CODES['reset']}")
+                    #print(cleaned_logical_id)
                     continue  # Skip this resource if its logical ID is in the exclusion list
 
                 # The logical ID is the key of the resource in the "Resources" section
                 resource_type = resource.get('Type', '')
                 type_parts = resource_type.split("::")
+
                 if len(type_parts) > 1:
                     # Simplified, using the last two parts directly
                     expected_logical_id_end = ''.join(type_parts[-2:])
                     if not cleaned_logical_id.lower().endswith(expected_logical_id_end.lower()):
-                        print(f"{COLOR_CODES['error']}Error: Logical ID '{cleaned_logical_id}' for resource '{resource_type}' is not compliant with the expected format.{COLOR_CODES['reset']}")
-                        raise exception
-                        return
+                        raise ValueError(
+                            f"Logical ID '{cleaned_logical_id}' for resource '{resource_type}' "
+                            f"is not compliant with the expected format in file '{file}'."
+                        )
                 else:
-                    print(f"{COLOR_CODES['error']}Error: Missing or invalid resource type for '{cleaned_logical_id}'.{COLOR_CODES['reset']}")
-                    return
-
+                    raise ValueError(
+                        f"Missing or invalid resource type for Logical ID '{cleaned_logical_id}' in file '{file}'."
+                    )
             # If we reach here, it means the file is compliant
-            print(f"{COLOR_CODES['compliant']}Compliant: {file}{COLOR_CODES['reset']}")
+            #print(f"{COLOR_CODES['compliant']}Compliant: {file}{COLOR_CODES['reset']}")
 
         except json.JSONDecodeError:
             print(f"{COLOR_CODES['error']}Error: Failed to parse JSON file: {file}{COLOR_CODES['reset']}")
@@ -85,7 +87,7 @@ class CloudFormationValidator:
                     full_path = os.path.join(root, filename)
                     # Skip "clusters.json" files and other files in exclusion list
                     if any(excluded_file in full_path for excluded_file in excluded_files):
-                        print(f"{COLOR_CODES['error']}Skipping {filename} file: {full_path}{COLOR_CODES['reset']}")
+                        #print(f"{COLOR_CODES['error']}Skipping {filename} file: {full_path}{COLOR_CODES['reset']}")
                         continue
                     files.append(full_path)
 
