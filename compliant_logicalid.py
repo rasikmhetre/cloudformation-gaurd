@@ -58,9 +58,7 @@ class CloudFormationValidator:
                     # Simplified, using the last two parts directly
                     expected_logical_id_end = ''.join(type_parts[-2:])
                     if not cleaned_logical_id.lower().endswith(expected_logical_id_end.lower()):
-                        print(cleaned_logical_id.lower())
-                        print(expected_logical_id_end.lower())
-                        print(f"{COLOR_CODES['error']}Error: Logical ID '{cleaned_logical_id}' for resource '{resource_type}' in '{f}' is not compliant with the expected format.{COLOR_CODES['reset']}")
+                        print(f"{COLOR_CODES['error']}Error: Logical ID '{cleaned_logical_id}' for resource '{resource_type}' is not compliant with the expected format.{COLOR_CODES['reset']}")
                         return
                 else:
                     print(f"{COLOR_CODES['error']}Error: Missing or invalid resource type for '{cleaned_logical_id}'.{COLOR_CODES['reset']}")
