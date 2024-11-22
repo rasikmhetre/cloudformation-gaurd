@@ -63,6 +63,7 @@ class CloudFormationValidator:
                             f"Logical ID '{cleaned_logical_id}' for resource '{resource_type}' "
                             f"is not compliant with the expected format in file '{file}'."
                         )
+                        exit(1)
                 else:
                     raise ValueError(
                         f"Missing or invalid resource type for Logical ID '{cleaned_logical_id}' in file '{file}'."
