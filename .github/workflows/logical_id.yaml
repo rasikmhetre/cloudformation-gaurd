@@ -1,0 +1,21 @@
+name: check if logical id is compliant
+
+on: 
+  pull_request:
+    branches:
+      - main
+    types: [opened, synchronize, reopened]
+
+jobs:
+  check_if_logical_id_is_compliant:
+    runs-on: ubuntu-latest
+    name: CloudFormation Guard validate
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13' 
+      - run: python compliant_logicalid.py
+            
+           
+  
