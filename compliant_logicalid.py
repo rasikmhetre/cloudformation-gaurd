@@ -5,12 +5,6 @@ import yaml
 import re
 import sys
 
-# Declare global variables for color codes
-COLOR_CODES = {
-    'compliant': '\033[32m',  # Green
-    'error': '\033[31m',      # Red
-    'reset': '\033[0m'        # Reset to default
-}
 
 class CloudFormationValidator:
     def __init__(self, directory, exclusion_file):
@@ -60,24 +54,19 @@ class CloudFormationValidator:
                     # Simplified, using the last two parts directly
                     expected_logical_id_end = ''.join(type_parts[-2:])
                     if not cleaned_logical_id.lower().endswith(expected_logical_id_end.lower()):
-                        raise ValueError(
-                            f"Logical ID '{cleaned_logical_id}' for resource '{resource_type}' "
-                            f"is not compliant with the expected format in file '{file}'."
-                        )
+                        print(f"{COLOR_CODES['error']}Error: Logical ID '{cleaned_logical_id}' for resource '{resource_type}' is not compliant with the expected format in file '{file}'.{COLOR_CODES['reset']}")
                         sys.exit(1)
                 else:
-                    raise ValueError(
-                        f"Missing or invalid resource type for Logical ID '{cleaned_logical_id}' in file '{file}'."
-                    )
+                    print(f"{COLOR_CODES['error']}Error: Missing or invalid resource type for Logical ID '{cleaned_logical_id}' in file '{file}'.{COLOR_CODES['reset']}")
             # If we reach here, it means the file is compliant
             #print(f"{COLOR_CODES['compliant']}Compliant: {file}{COLOR_CODES['reset']}")
 
         except json.JSONDecodeError:
-            print(f"{COLOR_CODES['error']}Error: Failed to parse JSON file: {file}{COLOR_CODES['reset']}")
+            print(f"Error: Failed to parse JSON file: {file}")
         except yaml.YAMLError:
-            print(f"{COLOR_CODES['error']}Error: Failed to parse YAML file: {file}{COLOR_CODES['reset']}")
+            print(f"Error: Failed to parse YAML file: {file}")
         except Exception as e:
-            print(f"{COLOR_CODES['error']}Error: {e}{COLOR_CODES['reset']}")
+            print(f"Error: {e}")
 
     def validate_all_files(self):
         """Validate all JSON and YAML files in the given directory and subdirectories."""
