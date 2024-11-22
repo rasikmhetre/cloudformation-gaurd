@@ -30,4 +30,18 @@ jobs:
 
       # Run your Python script
       - name: Run Python Code
-        run: python3 compliant_logicalid.py
+        run: |
+          echo "Running Python script..."
+          python3 compliant_logicalid.py > output.log
+          echo "Script finished!" 
+
+      - name: Generate Summary
+        run: |
+          echo "# Workflow Summary" >> $GITHUB_STEP_SUMMARY
+          echo "## Python Code Execution" >> $GITHUB_STEP_SUMMARY
+          echo "The Python script has been executed successfully." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Output from the script:" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          cat output.log >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
