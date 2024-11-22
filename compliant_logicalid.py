@@ -42,7 +42,7 @@ class CloudFormationValidator:
 
                 # Skip the resource if its cleaned logical ID is in the exclusion list
                 if cleaned_logical_id in self.EXCLUSION_LIST:
-                    #     print(f"{COLOR_CODES['error']}Skipping Logical ID: {cleaned_logical_id}{COLOR_CODES['reset']}")
+                    #     print(f"Skipping Logical ID: {cleaned_logical_id}")
                     #print(cleaned_logical_id)
                     continue  # Skip this resource if its logical ID is in the exclusion list
 
@@ -54,12 +54,12 @@ class CloudFormationValidator:
                     # Simplified, using the last two parts directly
                     expected_logical_id_end = ''.join(type_parts[-2:])
                     if not cleaned_logical_id.lower().endswith(expected_logical_id_end.lower()):
-                        print(f"{COLOR_CODES['error']}Error: Logical ID '{cleaned_logical_id}' for resource '{resource_type}' is not compliant with the expected format in file '{file}'.{COLOR_CODES['reset']}")
+                        print(f"Error: Logical ID '{cleaned_logical_id}' for resource '{resource_type}' is not compliant with the expected format in file '{file}'.")
                         sys.exit(1)
                 else:
-                    print(f"{COLOR_CODES['error']}Error: Missing or invalid resource type for Logical ID '{cleaned_logical_id}' in file '{file}'.{COLOR_CODES['reset']}")
+                    print(f"Error: Missing or invalid resource type for Logical ID '{cleaned_logical_id}' in file '{file}'.")
             # If we reach here, it means the file is compliant
-            #print(f"{COLOR_CODES['compliant']}Compliant: {file}{COLOR_CODES['reset']}")
+            #print(f"Compliant: {file}")
 
         except json.JSONDecodeError:
             print(f"Error: Failed to parse JSON file: {file}")
@@ -78,7 +78,7 @@ class CloudFormationValidator:
                     full_path = os.path.join(root, filename)
                     # Skip "clusters.json" files and other files in exclusion list
                     if any(excluded_file in full_path for excluded_file in excluded_files):
-                        #print(f"{COLOR_CODES['error']}Skipping {filename} file: {full_path}{COLOR_CODES['reset']}")
+                        #print(f"Skipping {filename} file: {full_path}")
                         continue
                     files.append(full_path)
 
