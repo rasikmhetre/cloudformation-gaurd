@@ -33,6 +33,38 @@
         ]
       }
     },
+    "DemoDashboardStagingBucket" : {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "BucketEncryption": {
+          "ServerSideEncryptionConfiguration": [
+            {
+              "ServerSideEncryptionByDefault": {
+                "SSEAlgorithm": "AES256"
+              }
+            }
+          ]
+        },
+        "PublicAccessBlockConfiguration": {
+          "BlockPublicAcls" : false,
+          "BlockPublicPolicy" : false,
+          "IgnorePublicAcls" : false,
+          "RestrictPublicBuckets" : false
+        },
+        "WebsiteConfiguration": {
+          "IndexDocument": "index.html",
+          "ErrorDocument": "index.html"
+        },
+        "Tags": [
+          {
+            "Key": "ct-aws:cloudformation:stack-name",
+            "Value": {
+              "Ref": "AWS::StackName"
+            }
+          }
+        ]
+      }
+    },
     "DemoDashboardStagingS3BucketPolicy": {
       "Type": "AWS::S3::BucketPolicy",
       "Properties": {
