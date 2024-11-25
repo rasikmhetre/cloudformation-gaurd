@@ -69,7 +69,7 @@
       "Type": "AWS::S3::BucketPolicy",
       "Properties": {
         "Bucket": {
-          "Ref": "DemoDashboardStagingS3Bucket"
+          "Ref": "DemoDashboardS3Bucket"
         },
         "PolicyDocument": {
           "Version": "2008-10-17",
