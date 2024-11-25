@@ -20,7 +20,8 @@ jobs:
         uses: ScottBrenner/cfn-lint-action@v2.4.6
       - name: Print the Cloud Formation Linter Version & run Linter.
         run: |
+          shopt -s globstar # enable globbing
           cfn-lint --version
-          cfn-lint -t ./dashboard.json
+          cfn-lint -t ./*.json
 
             
