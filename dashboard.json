@@ -174,10 +174,7 @@
             "SslSupportMethod" : "sni-only"
           }
         }
-      },
-      "DependsOn": [
-        "DemoDashboardStagingS3Bucket"
-      ]
+      }
     },
     "DemoDashboardProductionS3Bucket" : {
       "Type": "AWS::S3::Bucket",
@@ -320,10 +317,7 @@
             "SslSupportMethod" : "sni-only"
           }
         }
-      },
-      "DependsOn": [
-        "DemoDashboardProductionS3Bucket"
-      ]
+      }
     }
   }
 }
