@@ -352,6 +352,7 @@
     },
     "MongoReplicaSetEncryptedVolumeXvdp010169": {
       "DeletionPolicy": "Snapshot",
+      "UpdateReplacePolicy": "Snapshot",
       "Properties": {
         "AvailabilityZone": {
           "Fn::Join": [
@@ -395,6 +396,7 @@
       "Type": "AWS::EC2::Volume"
     },
     "MongoReplicaSetEncryptedVolumeXvdp010170": {
+      "UpdateReplacePolicy": "Snapshot",
       "DeletionPolicy": "Snapshot",
       "Properties": {
         "AvailabilityZone": {
@@ -440,6 +442,7 @@
       "Type": "AWS::EC2::Volume"
     },
     "MongoReplicaSetEncryptedVolumeXvdp010185": {
+      "UpdateReplacePolicy": "Snapshot",
       "DeletionPolicy": "Snapshot",
       "Properties": {
         "AvailabilityZone": {
@@ -484,6 +487,7 @@
       "Type": "AWS::EC2::Volume"
     },
     "MongoReplicaSetEncryptedVolumeXvdp010186": {
+      "UpdateReplacePolicy": "Snapshot",
       "DeletionPolicy": "Snapshot",
       "Properties": {
         "AvailabilityZone": {
@@ -529,6 +533,7 @@
       "Type": "AWS::EC2::Volume"
     },
     "MongoReplicaSetEncryptedVolumeXvdp010201": {
+      "UpdateReplacePolicy": "Snapshot",
       "DeletionPolicy": "Snapshot",
       "Properties": {
         "AvailabilityZone": {
@@ -573,6 +578,7 @@
       "Type": "AWS::EC2::Volume"
     },
     "MongoReplicaSetEncryptedVolumeXvdp010202": {
+      "UpdateReplacePolicy": "Snapshot",
       "DeletionPolicy": "Snapshot",
       "Properties": {
         "AvailabilityZone": {
