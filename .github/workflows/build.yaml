@@ -18,4 +18,9 @@ jobs:
     steps: 
       - name: cfn-lint-action
         uses: ScottBrenner/cfn-lint-action@v2.4.6
+      - name: Print the Cloud Formation Linter Version & run Linter.
+        run: |
+          cfn-lint --version
+          cfn-lint -t ./dashboard.json
+
             
