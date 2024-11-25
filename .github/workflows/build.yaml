@@ -16,10 +16,6 @@ jobs:
       # only required for workflows in private repositories
       contents: read
     steps: 
-      - name: CloudFormation Guard validate
-        uses: aws-cloudformation/cloudformation-guard@action-v0.0.5
-        with:
-          rules: '.'
-          data: '.'
-          run: |
-            ls -lrht
+      - name: cfn-lint-action
+        uses: ScottBrenner/cfn-lint-action@v2.4.6
+            
