@@ -1,13 +1,7 @@
 name: Check if logical id naming convention is compliant or not
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
-    types: [opened,synchronize,reopened]
+  workflow_dispath:
 
 jobs:
   run-python-code:
