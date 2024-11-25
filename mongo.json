@@ -637,9 +637,7 @@
             ".",
             [
               {
-                "Fn::ImportValue": {
-                  "Fn::Sub": "eu1-VpcNetworkPrefix"
-                }
+                "Fn::ImportValue": "eu1-VpcNetworkPrefix"
               },
               "10.170"
             ]
@@ -695,9 +693,7 @@
             ".",
             [
               {
-                "Fn::ImportValue": {
-                  "Fn::Sub": "eu1-VpcNetworkPrefix"
-                }
+                "Fn::ImportValue": "eu1-VpcNetworkPrefix"
               },
               "10.186"
             ]
@@ -753,9 +749,7 @@
             ".",
             [
               {
-                "Fn::ImportValue": {
-                  "Fn::Sub": "eu1-VpcNetworkPrefix"
-                }
+                "Fn::ImportValue": "eu1-VpcNetworkPrefix"
               },
               "10.202"
             ]
