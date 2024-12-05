@@ -22,8 +22,8 @@ jobs:
       - name: CloudFormation Guard validate
         uses: aws-cloudformation/cloudformation-guard@action-v0.0.5
         with:
-          rules: '../'
-          data: '../'
+          rules: './'
+          data: './'
 
 
             
