@@ -1,0 +1,4 @@
+Resources.*[ Type == /AWS::S3::Bucket/ ].Properties.BucketName empty
+Resources.*[ Type == /AWS::ECS::Cluster/ ].Properties.ClusterName empty
+Resources.*[ Type == /AWS::Batch::JobQueue/ ].Properties.JobQueueName empty
+Resources.*[ Type == /AWS::Batch::ComputeEnvironment|AWS::CloudWatch::Alarm|AWS::EC2::SecurityGroup|AWS::ECS::Cluster|AWS::ElasticLoadBalancing::LoadBalancer|AWS::ElasticLoadBalancingV2::LoadBalancer|AWS::ElasticLoadBalancingV2::TargetGroup/ ].Properties.Name empty
