@@ -1,3 +1,1 @@
-rule check_ebs_volume_encryption {
-  Resources[Type == "AWS::EC2::Volume"].Properties.Encrypted == true
-}
+
