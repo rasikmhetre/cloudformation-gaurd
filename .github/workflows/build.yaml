@@ -17,7 +17,8 @@ jobs:
       
     name: CloudFormation Guard validate
     steps:
-      
+      - name: checkout
+        uses: actions/checkout@v3
         
       - name: CloudFormation Guard validate
         uses: aws-cloudformation/cloudformation-guard@action-v0.0.5
