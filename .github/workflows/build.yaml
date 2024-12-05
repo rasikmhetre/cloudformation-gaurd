@@ -9,22 +9,22 @@ on:
 jobs:
   guard:
     runs-on: ubuntu-latest
-    name: CloudFormation Guard validate
     permissions:
       # only required when create-review is true
       pull-requests: write
       # only required for workflows in private repositories
       contents: read
-    steps: 
+      
+    name: CloudFormation Guard validate
+    steps:
       - name: checkout repository
         uses: actions/checkout@v4
         
-      - name: cfn-lint-action
-        uses: ScottBrenner/cfn-lint-action@v2.4.6
-      - name: Print the Cloud Formation Linter Version & run Linter.
-        run: |
-          shopt -s globstar # enable globbing
-          cfn-lint --version
-          cfn-lint -t ./*.json
+      - name: CloudFormation Guard validate
+        uses: aws-cloudformation/cloudformation-guard@action-v0.0.5
+        with:
+          rules: '../'
+          data: '../'
+
 
             
