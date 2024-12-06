@@ -22,12 +22,9 @@ jobs:
       - name: CloudFormation Guard validate
         uses: aws-cloudformation/cloudformation-guard@action-v0.0.5
         with:
-          repository: rasikmhetre/cloudformation-guard
+          checkout: rasikmhetre/cloudformation-guard
           rules: './'
           data: './'
-
-      - name: run ls
-        run: ls 
       
 
 
