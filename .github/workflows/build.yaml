@@ -26,5 +26,9 @@ jobs:
           rules: './'
           data: './'
 
+      - name: run ls
+        run: ls 
+      
+
 
             
