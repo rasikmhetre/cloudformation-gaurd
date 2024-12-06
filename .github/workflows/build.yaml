@@ -4,36 +4,28 @@ on:
   pull_request:
     branches:
       - main
-    types: [opened]
+    types: [opened, synchronize, reopened]
 
 jobs:
-  aws-guard-rules-registry-integration-tests-linux-and-macos:
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-    runs-on: ${{ matrix.os }}
-    name: Integration tests against aws-guard-rules-registry
+  guard:
+    runs-on: ubuntu-latest
+    permissions:
+      # only required when create-review is true
+      pull-requests: write
+      # only required for workflows in private repositories
+      contents: read
+      
+    name: CloudFormation Guard validate
     steps:
-      - uses: actions/checkout@v3
-        name: Checkout cfn-guard
+      
+        
+      - name: CloudFormation Guard validate
+        uses: aws-cloudformation/cloudformation-guard@action-v0.0.5
         with:
-          repository: aws-cloudformation/cloudformation-guard
-          path: cloudformation-guard
-      - name: Build binary
-        run: |
-          cd cloudformation-guard/guard/
-          cargo build --release
-      - uses: actions/checkout@v3
-        name: Checkout aws-guard-rules-registry
-        with:
-          repository: aws-cloudformation/aws-guard-rules-registry
-          path: aws-guard-rules-registry
-          ref: main
-      - name: Run integration tests using test command
-        run: |
-          if cloudformation-guard/target/release/cfn-guard test -d aws-guard-rules-registry/rules; then
-              echo "The integration tests for test command have passed."
-          else
-              echo "The integration tests for test command have failed."
-              exit 1
-          fi
+          
+          rules: './'
+          data: './'
+      
+
+
+            
